@@ -12,5 +12,5 @@ Clona el repositorio y ejecuta el script:
 git clone https://github.com/yeixx/KeyForge.git
 cd KeyForge
 python3 keyforge.py
-
-![KeyForge en ejecución](screenshot.jpg)
+```
+![KeyForge en ejecución](./screenshot.jpg)
