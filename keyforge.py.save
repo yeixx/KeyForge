@@ -1,0 +1,72 @@
+
+import itertools
+
+def generar_combinaciones(datos_persona, cantidad):
+    """Genera combinaciones de contraseñas a partir de los datos ingresados."""
+    combinaciones = set()
+    for i in range(1, len(datos_persona) + 1):
+        for combo in itertools.permutations(datos_persona, i):
+            combinaciones.add(''.join(combo))
+            combinaciones.add('-'.join(combo))
+    return list(combinaciones)[:cantidad]
+
+def keyforge():
+    # Espacio para el banner
+    print("""\n[
+██╗  ██╗███████╗██╗   ██╗███████╗ ██████╗ ██████╗  ██████╗ ███████╗
+██║ ██╔╝██╔════╝╚██╗ ██╔╝██╔════╝██╔═══██╗██╔══██╗██╔════╝ ██╔════╝
+█████╔╝ █████╗   ╚████╔╝ █████╗  ██║   ██║██████╔╝██║  ███╗█████╗  
+██╔═██╗ ██╔══╝    ╚██╔╝  ██╔══╝  ██║   ██║██╔══██╗██║   ██║██╔══╝  
+██║  ██╗███████╗   ██║   ██║     ╚██████╔╝██║  ██║╚██████╔╝███████╗
+╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+                                                                   
+]\n""")
+    
+    personas = int(input("¿Cuántas personas deseas ingresar datos? (1 o 2): "))
+    
+    if personas not in [1, 2]:
+        print("Opción no válida. Saliendo...")
+        return
+    
+    datos_1 = []
+    nombre_1 = input("Nombre de la primera persona: ")
+    apellidos_1 = input("Apellidos: ")
+    fecha_nacimiento_1 = input("Fecha de nacimiento (YYYYMMDD): ")
+    otros_datos_1 = input("Otros datos (separados por comas): ").split(',')
+    
+    datos_1.extend([nombre_1, apellidos_1, fecha_nacimiento_1] + otros_datos_1)
+    
+    datos_2 = []
+    if personas == 2:
+        nombre_2 = input("Nombre de la segunda persona: ")
+        apellidos_2 = input("Apellidos: ")
+        fecha_nacimiento_2 = input("Fecha de nacimiento (YYYYMMDD): ")
+        otros_datos_2 = input("Otros datos (separados por comas): ").split(',')
+        
+        datos_2.extend([nombre_2, apellidos_2, fecha_nacimiento_2] + otros_datos_2)
+    
+    cantidad_contrasenas = int(input("¿Cuántas contraseñas deseas generar?: "))
+    
+    print("Generando combinaciones...\n")
+    
+    combinaciones_finales = []
+    
+    # 3/4 del total con los datos de la primera persona
+    limite_persona_1 = int(cantidad_contrasenas * 0.75)
+    combinaciones_finales.extend(generar_combinaciones(datos_1, limite_persona_1))
+    
+    # 1/4 restante combinando ambas personas si hay dos
+    if personas == 2:
+        datos_combinados = datos_1 + datos_2
+        combinaciones_finales.extend(generar_combinaciones(datos_combinados, cantidad_contrasenas - limite_persona_1))
+    
+    # Guardar en archivo
+    with open("lista.txt", "w") as archivo:
+        for contrasena in combinaciones_finales:
+            archivo.write(contrasena + "\n")
+    
+    print(f"Proceso finalizado. {len(combinaciones_finales)} contraseñas guardadas en lista.txt")
+    
+    # Mostrar un resumen de algunas contraseñas generadas
+    if__name__=="__main__":
+       keyforge()
